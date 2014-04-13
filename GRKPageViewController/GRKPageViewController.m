@@ -261,6 +261,11 @@
     //END
 }
 
+- (BOOL)shouldAutomaticallyForwardAppearanceMethods
+{
+    return NO;
+}
+
 - (void)removePage:(UIViewController *)page withIndex:(NSUInteger)index
 {
     //Replace the page in our array with padding (NSNull)
@@ -270,6 +275,9 @@
     [page willMoveToParentViewController:nil];
     [page.view removeFromSuperview];
     [page removeFromParentViewController];
+  
+    [page beginAppearanceTransition:NO animated:YES];
+    [page endAppearanceTransition];
 }
 
 - (void)addPage:(UIViewController *)page withIndex:(NSUInteger)index
@@ -286,6 +294,9 @@
         [self addChildViewController:page];
         [self.scrollView addSubview:page.view];
         [page didMoveToParentViewController:self];
+
+        [page beginAppearanceTransition:YES animated:YES];
+        [page endAppearanceTransition];
     }
 }
 
